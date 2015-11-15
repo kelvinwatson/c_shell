@@ -1,0 +1,222 @@
+Pre-script Info
+PID: 3847
+
+BEGINNING TEST SCRIPT - MAX 150 POINTS (10 more points for comments)
+
+
+--------------------
+ls (10 points for returning dir contents)
+input.txt
+junk
+Makefile
+methods.c
+methods.h
+methods.o
+msc.txt
+mytestresults
+out
+output.txt
+p3testscript
+smallsh
+smallsh.c
+smallsh.o
+testFolder
+
+
+--------------------
+ls out junk
+
+
+--------------------
+cat junk (20 points for correctly returning contents of junk)
+input.txt
+junk
+Makefile
+methods.c
+methods.h
+methods.o
+msc.txt
+mytestresults
+out
+output.txt
+p3testscript
+smallsh
+smallsh.c
+smallsh.o
+testFolder
+
+
+--------------------
+wc in junk (20 points for returning correct numbers from wc)
+
+ 15  15 143
+
+--------------------
+test -f badfile (10 points for returning error value of 1)
+
+
+--------------------
+wc in badfile (10 points for returning text error)
+open: No such file or directory
+
+
+
+--------------------
+--------------------
+badfile (10 points for returning text error)
+badfile (10 points for returning text error)
+execvp: No such file or directory
+
+execvp: No such file or directory
+
+
+
+--------------------
+--------------------
+sleep 100 background (10 points for returning process ID of sleeper)
+sleep 100 background (10 points for returning process ID of sleeper)
+
+
+
+
+--------------------
+--------------------
+pkill -signal SIGTERM sleep (10 points for pid of killed process, 10 points for signal)
+pkill -signal SIGTERM sleep (10 points for pid of killed process, 10 points for signal)
+(Ignore message about Operation Not Permitted)
+(Ignore message about Operation Not Permitted)
+pkill: 3931 - Operation not permitted
+pkill: 3936 - Operation not permitted
+pkill: 3937 - Operation not permitted
+pkill: 3938 - Operation not permitted
+pkill: 3931 - Operation not permitted
+pkill: 3936 - Operation not permitted
+pkill: 3937 - Operation not permitted
+pkill: 3938 - Operation not permitted
+
+
+
+
+--------------------
+--------------------
+sleep 1 background (10 pts for pid of bg ps when done, 10 for exit value)
+sleep 1 background (10 pts for pid of bg ps when done, 10 for exit value)
+
+
+
+
+--------------------
+--------------------
+pwd
+pwd
+/nfs/stak/students/w/watsokel/cs344-operatingSystems/p3
+/nfs/stak/students/w/watsokel/cs344-operatingSystems/p3
+
+
+
+
+--------------------
+--------------------
+cd
+cd
+
+
+
+
+--------------------
+--------------------
+pwd (10 points for being in the HOME dir)
+pwd (10 points for being in the HOME dir)
+/nfs/stak/students/w/watsokel
+/nfs/stak/students/w/watsokel
+
+
+
+
+--------------------
+--------------------
+mkdir testdir3847
+mkdir testdir3847
+mkdir: cannot create directory `testdir3847': File exists
+
+
+
+
+--------------------
+--------------------
+cd testdir3847
+cd testdir3847
+
+
+
+
+--------------------
+--------------------
+pwd (10 points for being in the newly created dir)
+pwd (10 points for being in the newly created dir)
+/nfs/stak/students/w/watsokel/testdir3847
+/nfs/stak/students/w/watsokel/testdir3847
+
+------------------------------------------------------------
+Small Shell	Programmed by: Kelvin Watson
+------------------------------------------------------------
+::::::::::::::::::::::::::::TRACE: Printing status:
+exit value 1
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::childProcessID=3849childProcessID=3850childProcessID=3851childProcessID=3852childProcessID=3853childProcessID=3854childProcessID=3855childProcessID=3856childProcessID=3857childProcessID=3858childProcessID=3859childProcessID=3860childProcessID=3861childProcessID=3862childProcessID=3863childProcessID=3864childProcessID=3865childProcessID=3866childProcessID=3867childProcessID=3868childProcessID=3869childProcessID=3870childProcessID=3871childProcessID=3872childProcessID=3873childProcessID=3874childProcessID=3875childProcessID=3876childProcessID=3877childProcessID=3878childProcessID=3881childProcessID=3882childProcessID=3883childProcessID=3886childProcessID=3888childProcessID=3890childProcessID=3890childProcessID=3894childProcessID=3896childProcessID=3898childProcessID=3900childProcessID=3902childProcessID=3951childProcessID=3952childProcessID=3954childProcessID=3956childProcessID=3957childProcessID=3960childProcessID=3962childProcessID=3964childProcessID=3966childProcessID=3968childProcessID=3970childProcessID=3977childProcessID=3980childProcessID=3981childProcessID=3983childProcessID=3986childProcessID=3990childProcessID=3992childProcessID=3994childProcessID=3996childProcessID=3998childProcessID=4000childProcessID=4002childProcessID=4004childProcessID=4006childProcessID=4008childProcessID=4010childProcessID=4013childProcessID=4015childProcessID=4017childProcessID=4019childProcessID=4021childProcessID=4024childProcessID=4026childProcessID=4031childProcessID=4034childProcessID=4045childProcessID=4047childProcessID=4049childProcessID=4051
+------------------------------------------------------------
+Small Shell	Programmed by: Kelvin Watson
+------------------------------------------------------------
+::::::::::::::::::::::::::::TRACE: Printing status:
+exit value 1
+:::::did the badfile thing get here?:::::::::::::::::::::::::::::::::::::::::::::::::::::childProcessID=3849childProcessID=3850childProcessID=3851childProcessID=3852childProcessID=3853childProcessID=3854childProcessID=3855childProcessID=3856childProcessID=3857childProcessID=3858childProcessID=3859childProcessID=3860childProcessID=3861childProcessID=3862childProcessID=3863childProcessID=3864childProcessID=3865childProcessID=3866childProcessID=3867childProcessID=3868childProcessID=3869childProcessID=3870childProcessID=3871childProcessID=3872childProcessID=3873childProcessID=3874childProcessID=3875childProcessID=3876childProcessID=3877childProcessID=3878childProcessID=3881childProcessID=3881childProcessID=3884childProcessID=3885childProcessID=3887childProcessID=3889childProcessID=3889childProcessID=3892childProcessID=3895childProcessID=3897childProcessID=3899childProcessID=3901childProcessID=3950childProcessID=3953childProcessID=3955childProcessID=3958childProcessID=3959childProcessID=3961childProcessID=3963childProcessID=3965childProcessID=3967childProcessID=3969childProcessID=3971childProcessID=3978childProcessID=3982childProcessID=3984childProcessID=3985childProcessID=3988childProcessID=3991childProcessID=3993childProcessID=3995childProcessID=3997childProcessID=3999childProcessID=4001childProcessID=4003childProcessID=4005childProcessID=4007childProcessID=4009childProcessID=4011childProcessID=4014childProcessID=4016childProcessID=4018childProcessID=4020childProcessID=4022childProcessID=4025childProcessID=4027childProcessID=4032childProcessID=4035childProcessID=4046childProcessID=4048childProcessID=4050childProcessID=4052
+
+--------------------
+sleep 100 background (10 points for returning process ID of sleeper)
+
+
+--------------------
+pkill -signal SIGTERM sleep (10 points for pid of killed process, 10 points for signal)
+(Ignore message about Operation Not Permitted)
+pkill: 4094 - Operation not permitted
+pkill: 4098 - Operation not permitted
+pkill: 4101 - Operation not permitted
+pkill: 4103 - Operation not permitted
+
+
+--------------------
+sleep 1 background (10 pts for pid of bg ps when done, 10 for exit value)
+
+
+--------------------
+pwd
+/nfs/stak/students/w/watsokel/cs344-operatingSystems/p3
+
+
+--------------------
+cd
+
+
+--------------------
+pwd (10 points for being in the HOME dir)
+/nfs/stak/students/w/watsokel
+
+
+--------------------
+mkdir testdir3847
+mkdir: cannot create directory `testdir3847': File exists
+
+
+--------------------
+cd testdir3847
+
+
+--------------------
+pwd (10 points for being in the newly created dir)
+/nfs/stak/students/w/watsokel/testdir3847
+
+------------------------------------------------------------
+Small Shell	Programmed by: Kelvin Watson
+------------------------------------------------------------
+::::::::::::::::::::::::::::TRACE: Printing status:
+exit value 1
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::childProcessID=3849childProcessID=3850childProcessID=3851childProcessID=3852childProcessID=3853childProcessID=3854childProcessID=3855childProcessID=3856childProcessID=3857childProcessID=3858childProcessID=3859childProcessID=3860childProcessID=3861childProcessID=3862childProcessID=3863childProcessID=3864childProcessID=3865childProcessID=3866childProcessID=3867childProcessID=3868childProcessID=3869childProcessID=3870childProcessID=3871childProcessID=3872childProcessID=3873childProcessID=3874childProcessID=3875childProcessID=3876childProcessID=3877childProcessID=3878childProcessID=3881childProcessID=3882childProcessID=3883childProcessID=3886childProcessID=3888childProcessID=3890childProcessID=3893childProcessID=4055childProcessID=4056childProcessID=4057childProcessID=4058childProcessID=4059childProcessID=4109childProcessID=4110childProcessID=4112childProcessID=4113childProcessID=4114childProcessID=4115childProcessID=4116childProcessID=4117childProcessID=4118childProcessID=4119childProcessID=4120childProcessID=4121childProcessID=4123childProcessID=4124childProcessID=4126childProcessID=4127childProcessID=4128childProcessID=4129childProcessID=4131childProcessID=4132childProcessID=4133childProcessID=4134childProcessID=4135childProcessID=4137childProcessID=4138childProcessID=4139childProcessID=4140childProcessID=4141childProcessID=4142childProcessID=4143childProcessID=4144childProcessID=4145childProcessID=4146childProcessID=4148childProcessID=4149childProcessID=4150childProcessID=4151childProcessID=4152childProcessID=4153childProcessID=4154
