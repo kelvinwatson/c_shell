@@ -3,14 +3,13 @@
 *	File name: methods.c
 *	Date created: 7 Nov 2015
 * 	Last modified: 7 Nov 2015
-*  	Citations: 	http://stackoverflow.com/questions/2605130/redirecting-exec-output-to-a-buffer-or-file
+*  	Citations: http://stackoverflow.com/questions/2605130/redirecting-exec-output-to-a-buffer-or-file
 * 	http://pubs.opengroup.org/onlinepubs/009695399/functions/exec.html
 	http://www.cs.loyola.edu/~jglenn/702/S2005/Examples/dup2.html
 	http://beej.us/guide/bgipc/output/html/multipage/signals.html
 */ 
 
 #include "methods.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -46,7 +45,6 @@ void clearBuffer(FILE* fp){
  * SIGCHLD handler that cleans up the child process  
  */ 
 void cleanBG(int signo){
-	//printf("SIGNO=%d",signo); FLUSH;
 	int status;
 	pid_t cp;
 	do{
@@ -80,7 +78,6 @@ int executeCommand(char** argv, int len, int bg, pid_t* chld){
 	printf("TRACE: In executeCommand()\n"); FLUSH;
 	#endif
 	int childStatus;
-	
 	if(bg){
 		#if(TRACE)
 		printf("TRACE: Last word=%s, Run in background!\n",argv[len-2]); FLUSH;//run process in background 
@@ -142,7 +139,6 @@ int executeCommand(char** argv, int len, int bg, pid_t* chld){
 		#if(TRACE)
 		printf("TRACE: Run in foreground!\n"); FLUSH; //run process in background 
 		#endif
-
 		struct sigaction fgParentSA; 
 		memset (&fgParentSA, 0, sizeof(fgParentSA)); 
 		fgParentSA.sa_handler = &terminateFG; 
@@ -156,10 +152,7 @@ int executeCommand(char** argv, int len, int bg, pid_t* chld){
 			perror("sigaction(SIGTERM)"); FLUSH;
 			exit(1);			
 		}
-		
-		 
 		FLUSH;
-		
 		pid_t r = fork(); //base decision on return value of fork
 		switch(r){
 			case -1:{ //fork failure
@@ -182,8 +175,6 @@ int executeCommand(char** argv, int len, int bg, pid_t* chld){
 			}
 		}
 	}
-			//CHILD something!
-		printf("Do I get here? by whom? getPid=%d",getpid());
 }
 
 int redirectIO(char** argv, char* fileIn, char* fileOut, int len, int bg, pid_t* chld){
@@ -192,7 +183,6 @@ int redirectIO(char** argv, char* fileIn, char* fileOut, int len, int bg, pid_t*
 	#endif
 	int i, fdi, fdo;
 	int childStatus;
-	
 	#if(TRACE)
 	printf("\nTRACE: Printing all argv's in redirectIO():\n"); FLUSH;
 	for(i=0; i<len; i++){
@@ -200,7 +190,6 @@ int redirectIO(char** argv, char* fileIn, char* fileOut, int len, int bg, pid_t*
 	}
 	printf("bg=%d\n",bg); FLUSH;
 	#endif
-	
 	if (bg) {
 		#if(TRACE)
 		printf("TRACE: Last word=%s. Run in background!\n",argv[len-2]); FLUSH; //run process in background 
@@ -211,22 +200,19 @@ int redirectIO(char** argv, char* fileIn, char* fileOut, int len, int bg, pid_t*
 		sigchld_action.sa_handler = &cleanBG; 
 		sigaction (SIGCHLD, &sigchld_action, NULL); 
 		/* Now ready to fork child process */ 
-
 		pid_t r = fork(); //base decision on return value of fork
 		switch(r){
-		case -1:{ //fork failure
+    		case -1:{ //fork failure
 				#if(TRACE)
 				perror("\nTRACE: Fork unsuccessful. Exiting...\n");
 				#endif
 				exit(1);
 			}
-		case 0:{ //child
+    		case 0:{ //child
 				#if(TRACE)
 				printf("\nTRACE: I'm the child!\n"); FLUSH;
 				printf("TRACE: Redirecting input now...\n"); FLUSH;
 				#endif
-				
-				
 				/* REDIRECT INPUT to get input from file or /dev/null if no filename specified */
 				if(!fileIn){ //if no filename supplied
 					fdi=open("/dev/null", O_RDONLY); //opens the file /dev/null from the root dir & obtain its descriptor
@@ -237,7 +223,6 @@ int redirectIO(char** argv, char* fileIn, char* fileOut, int len, int bg, pid_t*
 				dup2(fdi, STDIN_FILENO); //STDIN_FILENO=0, replace stdin w/input file(make stdout goto file)- STDIN_FILENO now points to same file as fd
 				//dup2 closes the file descriptor for STDIN_FILENO before duplicating it onto stdin
 				close(fdi); //fd no longer needed as stdin now also points to same file as fdi did (either the file or /dev/null)
-				
 				/* REDIRECT OUTPUT to /dev/null to prevent output to terminal */
 				#if(TRACE)
 				printf("TRACE: Redirecting output now...\n"); FLUSH;
@@ -249,13 +234,12 @@ int redirectIO(char** argv, char* fileIn, char* fileOut, int len, int bg, pid_t*
 				_exit(1);
 				break;
 			}
-		default:{ //parent
+    		default:{ //parent
 				(*chld)=r;
 				waitpid(r,&childStatus, WUNTRACED); //waitpid's behavior is unpredictable if incorrect args are passed in
 				return childStatus;
 			}
 		}
-		
 	} else{ //run process in foreground
 		#if(TRACE)
 		printf("TRACE: Run in foreground!\n"); FLUSH;
@@ -299,15 +283,12 @@ int redirectIO(char** argv, char* fileIn, char* fileOut, int len, int bg, pid_t*
 	}
 }
 
-
-
 int redirectInput(char** argv, char* fileName, int len, int bg, pid_t* chld){
 	#if(TRACE)
 	printf("TRACE: In redirectInput()\n");
 	#endif
 	int i, fdi, fdo;
 	int childStatus;
-	
 	#if(TRACE)
 	printf("\nTRACE: Printing all argv's in redirectInput(), fileName=%s:\n",fileName);
 	for(i=0; i<len; i++){
@@ -315,7 +296,6 @@ int redirectInput(char** argv, char* fileName, int len, int bg, pid_t* chld){
 	}
 	printf("bg=%d\n",bg); FLUSH;
 	#endif
-	
 	if (bg) {
 		#if(TRACE)
 		printf("TRACE: Last word=%s. Run in background!\n",argv[len-2]); FLUSH;//run process in background 
@@ -326,27 +306,23 @@ int redirectInput(char** argv, char* fileName, int len, int bg, pid_t* chld){
 		sigchld_action.sa_handler = &cleanBG; 
 		sigaction(SIGCHLD, &sigchld_action, NULL);
 		/* Now ready to fork child process */ 
-
 		pid_t r = fork(); //base decision on return value of fork
 		switch(r){
-		case -1:{ //fork failure
+    		case -1:{ //fork failure
 				perror("\nTRACE: Fork unsuccessful. Exiting...\n"); FLUSH;
 				exit(1);
 			}
-		case 0:{ //child
+    		case 0:{ //child
 				#if(TRACE)
 				printf("\nTRACE: I'm the child!\n"); FLUSH;
 				printf("TRACE: Redirecting input now...\n"); FLUSH;
 				#endif
-				
-				
 				/* REDIRECT INPUT to get input from file or /dev/null if no filename specified */
 				if(!fileName){ //if no filename supplied
 					if ( (fdi=open("/dev/null", O_RDONLY))==-1){
 						perror("open");
 					} //opens the file /dev/null from the root dir & obtain its descriptor
-				}
-				else{ // filename provided
+				}else{ // filename provided
 					if( (fdi=open(fileName, O_RDONLY))==-1){
 						perror("open");
 					} //open file named fileName from the curr dir and obtain its descriptor
@@ -354,7 +330,6 @@ int redirectInput(char** argv, char* fileName, int len, int bg, pid_t* chld){
 				dup2(fdi, STDIN_FILENO); //STDIN_FILENO=0, replace stdin w/input file(make stdout goto file)- STDIN_FILENO now points to same file as fd
 				//dup2 closes the file descriptor for STDIN_FILENO before duplicating it onto stdin
 				close(fdi); //fd no longer needed as stdin now also points to same file as fdi did (either the file or /dev/null)
-				
 				/* REDIRECT OUTPUT to /dev/null to prevent output to terminal */
 				#if(TRACE)
 				printf("TRACE: Redirecting output now...\n"); FLUSH;
@@ -362,18 +337,16 @@ int redirectInput(char** argv, char* fileName, int len, int bg, pid_t* chld){
 				fdo=open("/dev/null", O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR); //opens the file /dev/null from the root dir & obtain its descriptor
 				dup2(fdo,STDOUT_FILENO); //STDOUT_FILENO=1
 				close(fdo); //since stdout fd points to /dev/null now, fdo is no longer needed
-				
 				execvp(argv[0],argv); //destroys the currently running child process
 				_exit(1);
 				break;
 			}
-		default:{ //parent
+    		default:{ //parent
 				(*chld)=r;
 				waitpid(r,&childStatus, WUNTRACED | WNOHANG); //waitpid's behavior is unpredictable if incorrect args are passed in
 				return childStatus;
-			}
+	        }
 		}
-		
 	} else{ //run process in foreground
 		#if(TRACE)
 		printf("TRACE: Run in foreground!\n"); FLUSH;
@@ -381,11 +354,11 @@ int redirectInput(char** argv, char* fileName, int len, int bg, pid_t* chld){
 		FLUSH;
 		pid_t r = fork(); //base decision on return value of fork
 		switch(r){
-		case -1:{ //fork failure
+    		case -1:{ //fork failure
 				perror("\nTRACE: Fork unsuccessful. Exiting...\n"); FLUSH;
 				exit(1);
 			}
-		case 0:{ //child
+    		case 0:{ //child
 				#if(TRACE)
 				printf("\nTRACE: I AM HERE: FG: I'm the child!\n"); FLUSH;
 				printf("This is the child process. My PID is %u and my parent's is %u",getpid(),getppid()); FLUSH;
@@ -403,18 +376,15 @@ int redirectInput(char** argv, char* fileName, int len, int bg, pid_t* chld){
 					dup2(fdi, 0); //replace stdin (keyboard) w/input file(make stdout goto file)- STDIN_FILENO now points to same file as fd
 					close(fdi); //fd no longer needed as stdin now also points to same file				
 				}//else keep stdin as default (keyboard input) fdi=open("/dev/stdin", O_RDONLY);
-				
-				
 				/*No need to redirect stdout here as we want the process to output to terminal*/
-
-				/* Execute the process, destroying the current child process */
+    				/* Execute the process, destroying the current child process */
 				if( (execvp(argv[0],argv)) == -1){
 					exit(EXIT_FAILURE);
 				}
 				_exit(1);
 				break;
 			}
-		default:{ //parent
+	    	default:{ //parent
 				#if(TRACE)
 				printf("I'm the parent with pid %u ", getpid()); FLUSH;
 				#endif
@@ -433,7 +403,6 @@ int redirectOutput(char** argv, char* fileName,  int len, int bg, pid_t* chld){
 	#endif
 	int i, fdo;
 	int childStatus;
-	
 	#if(TRACE)
 	printf("\nTRACE: Printing all argv's in redirectOutput():\n"); FLUSH;
 	for(i=0; i<len; i++){
@@ -441,7 +410,6 @@ int redirectOutput(char** argv, char* fileName,  int len, int bg, pid_t* chld){
 	}
 	printf("bg=%d\n",bg); FLUSH;
 	#endif
-	
 	if (bg) {
 		#if(TRACE)
 		printf("TRACE: Last word=%s. Run in background!\n",argv[len-2]); FLUSH;//run process in background 
@@ -455,17 +423,15 @@ int redirectOutput(char** argv, char* fileName,  int len, int bg, pid_t* chld){
 		FLUSH;
 		pid_t r = fork(); //base decision on return value of fork
 		switch(r){
-		case -1:{ //fork failure
+    		case -1:{ //fork failure
 				perror("\nTRACE: Fork unsuccessful. Exiting...\n"); FLUSH;
 				exit(1);
 			}
-		case 0:{ //child
+    		case 0:{ //child
 				#if(TRACE)
 				printf("\nTRACE: I'm the child!\n"); FLUSH;
 				printf("TRACE: Redirecting output now...\n"); FLUSH;
 				#endif
-				
-				
 				/* REDIRECT OUTPUT to /dev/null to prevent output to terminal */
 				#if(TRACE)
 				printf("TRACE: Redirecting output now...\n"); FLUSH;
@@ -473,18 +439,16 @@ int redirectOutput(char** argv, char* fileName,  int len, int bg, pid_t* chld){
 				fdo=open("/dev/null", O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR); //opens the file /dev/null from the root dir & obtain its descriptor
 				dup2(fdo,STDOUT_FILENO); //STDOUT_FILENO=1
 				close(fdo); //since stdout fd points to /dev/null now, fdo is no longer needed
-				
 				execvp(argv[0],argv); //destroys the currently running child process
 				_exit(1);
 				break;
 			}
-		default:{ //parent
+    		default:{ //parent
 				(*chld)=r;
 				waitpid(r,&childStatus, WUNTRACED); //waitpid's behavior is unpredictable if incorrect args are passed in
 				return childStatus;
 			}
 		}
-		
 	} else{ //run process in foreground
 		#if(TRACE)
 		printf("TRACE: Run in foreground!\n");  FLUSH;
@@ -500,13 +464,11 @@ int redirectOutput(char** argv, char* fileName,  int len, int bg, pid_t* chld){
 				#if(TRACE)
 				printf("\nTRACE: WRITE FG: I'm the child! fileName=%s\n",fileName); FLUSH;
 				#endif
-				
 				if ((fdo=open(fileName, O_WRONLY | O_TRUNC | O_CREAT,S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH))==-1){
 					perror("open"); FLUSH;
 				} //opens the file /dev/null from the root dir & obtain its descriptor
 				dup2(fdo,STDOUT_FILENO); //STDOUT_FILENO=1
 				close(fdo); // fdo is no longer needed
-				
 				/* Execute the process, destroying the current child process */
 				execvp(argv[0],argv);				
 				perror("execvp");FLUSH;
